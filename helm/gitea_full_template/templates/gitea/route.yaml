@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    haproxy.router.openshift.io/timeout: 4m
+  labels:
+    {{- include "gitea.labels" . | nindent 4 }}
+  name: {{ include "gitea.fullname" . }}
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: {{ include "gitea.fullname" . }}-http
