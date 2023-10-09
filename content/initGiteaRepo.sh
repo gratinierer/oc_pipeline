@@ -2,11 +2,11 @@
 curl -X 'POST' \
   'http://gitea-http:3000/api/v1/user/repos' \
   -H 'accept: application/json' \
-  -H 'authorization: Basic Z2l0ZWFfYWRtaW46cjhzQThDUEhEOSFidDZk' \
+  -H 'authorization: Basic Z2l0ZWFfYWRtaW46cjhzQThDUEhEOV9idDZk' \
   -H 'Content-Type: application/json' \
   -d '{
   "auto_init": true,
-  "default_branch": "main",
+  "default_branch": "sandbox_branch",
   "description": "sandbox-branch",
   "name": "sandbox",
   "private": false,
