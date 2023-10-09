@@ -20,7 +20,6 @@ metadata:
     app.kubernetes.io/component: python-serverless-git
     app.kubernetes.io/instance: python-serverless-git
     app.kubernetes.io/name: python-serverless-git
-    app.kubernetes.io/part-of: GOEDEL
     app.openshift.io/runtime: python
     app.openshift.io/runtime-version: 3.9-ubi8
 spec:
@@ -34,7 +33,6 @@ spec:
       labels:
         app.kubernetes.io/component: python-serverless-git
         app.kubernetes.io/instance: python-serverless-git
-        app.kubernetes.io/part-of: GOEDEL
         app.openshift.io/runtime: python
         app.openshift.io/runtime-version: 3.9-ubi8
     spec:
