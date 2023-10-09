@@ -10,6 +10,7 @@ pipeline {
         stage('Hole daten') {
             steps {
                 sh 'git clone http://gitea-http:3000/gitea_admin/sandbox.git'
+                sh 'cd sandbox; git switch main'
             }
         }
         stage ('manipuliere Daten') {
