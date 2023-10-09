@@ -138,17 +138,6 @@ spec:
                   fieldPath: status.podIP
             - name: SERVING_LOGGING_CONFIG
             - name: SERVING_LOGGING_LEVEL
-            - name: SERVING_REQUEST_LOG_TEMPLATE
-              value: >-
-                {"httpRequest": {"requestMethod": "{{.Request.Method}}",
-                "requestUrl": "{{js .Request.RequestURI}}", "requestSize":
-                "{{.Request.ContentLength}}", "status": {{.Response.Code}},
-                "responseSize": "{{.Response.Size}}", "userAgent": "{{js
-                .Request.UserAgent}}", "remoteIp": "{{js .Request.RemoteAddr}}",
-                "serverIp": "{{.Revision.PodIP}}", "referer": "{{js
-                .Request.Referer}}", "latency": "{{.Response.Latency}}s",
-                "protocol": "{{.Request.Proto}}"}, "traceId": "{{index
-                .Request.Header "X-B3-Traceid"}}"}
             - name: SERVING_ENABLE_REQUEST_LOG
               value: 'false'
             - name: SERVING_REQUEST_METRICS_BACKEND
