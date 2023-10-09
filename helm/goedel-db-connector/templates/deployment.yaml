@@ -8,11 +8,10 @@ metadata:
     deployment.kubernetes.io/revision: '1'
     serving.knative.dev/creator: gratinierer
   resourceVersion: '1337884429'
-  name: python-serverless-git-00001-deployment
+  name: python-serverless-git-00001-deployment-helm
   uid: 2507094c-2b01-4542-aadc-de0f96d6d3b8
   creationTimestamp: '2023-09-27T08:23:03Z'
   generation: 2
-   namespace: gratinierer-dev
   ownerReferences:
     - apiVersion: serving.knative.dev/v1
       kind: Revision
@@ -87,7 +86,7 @@ spec:
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          image: 'python-serverless-git:latest'
+          image: image-registry.openshift-image-registry.svc:5000/gratinierer-dev/python-serverless-git@sha256:6e2b7c78243439577d683467ff9560a523148c65df39def3d594d6f1f699d7ea
         - resources:
             requests:
               cpu: 25m
@@ -202,7 +201,7 @@ spec:
               protocol: TCP
           imagePullPolicy: IfNotPresent
           terminationMessagePolicy: File
-          image: 'python-serverless-git:latest'
+          image: image-registry.openshift-image-registry.svc:5000/gratinierer-dev/python-serverless-git@sha256:6e2b7c78243439577d683467ff9560a523148c65df39def3d594d6f1f699d7ea
       restartPolicy: Always
       terminationGracePeriodSeconds: 300
       dnsPolicy: ClusterFirst

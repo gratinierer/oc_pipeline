@@ -38,7 +38,7 @@ spec:
     spec:
       containerConcurrency: 0
       containers:
-        - image: python-serverless-git:latest
+        - image: image-registry.openshift-image-registry.svc:5000/gratinierer-dev/python-serverless-git@sha256:6e2b7c78243439577d683467ff9560a523148c65df39def3d594d6f1f699d7ea
           imagePullPolicy: Always
           name: python-serverless-git
           ports:
@@ -54,4 +54,3 @@ spec:
   traffic:
     - latestRevision: true
       percent: 100
-
