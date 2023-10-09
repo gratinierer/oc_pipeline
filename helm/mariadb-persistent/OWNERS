@@ -1,6 +1,6 @@
 chart:
-  name: mysql-imagestreams
-  description: This is the Red Hat MySQL imagestreams chart
+  name: mariadb-persistent
+  description: This is the Red Hat MariaDB persistent storage
 publicPgpKey: null
 users:
   - githubUsername: phracek

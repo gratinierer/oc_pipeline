@@ -10,8 +10,8 @@ metadata:
 spec:
   #serviceAccount: {{ .Values.serviceAccount }}
   containers:
-    - name: "mysql-connection-test"
-      image: "registry.redhat.io/rhel8/mysql-80:latest"
+    - name: "mariadb-connection-test"
+      image: "registry.redhat.io/rhel8/mariadb-105:latest"
       imagePullPolicy: IfNotPresent
       env:
         - name: MARIADB_USER

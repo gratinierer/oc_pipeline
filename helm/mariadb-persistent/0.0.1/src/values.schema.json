@@ -39,10 +39,10 @@
             "sliderMax": 65536,
             "sliderUnit": "Mi"
         },
-        "mysql_version": {
+        "mariadb_version": {
             "type": "string",
-            "description": "Specify mysql imagestream tag",
-            "enum": [ "latest", "8.0-el9", "8.0-el8", "8.0-el7" ]
+            "description": "Specify mariadb imagestream tag",
+            "enum": [ "latest", "10.5-el9", "10.3-el8", "10.5-el8", "10.3-el7", "10.3", "10.5-el7" ]
         }
     }
 }

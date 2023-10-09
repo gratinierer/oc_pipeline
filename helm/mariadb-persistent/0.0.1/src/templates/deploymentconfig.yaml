@@ -4,7 +4,8 @@ metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: "true"
   labels:
-    template: mysql-persistent-template
+    app.openshift.io/runtime: mariadb
+    template: mariadb-persistent-template
   name: {{ .Values.database_service_name }}
 spec:
   replicas: 1
@@ -39,7 +40,7 @@ spec:
             secretKeyRef:
               key: database-name
               name: {{ .Values.database_service_name }}
-        image: "mysql:{{ .Values.mysql_version }}"
+        image: "mariadb:{{ .Values.mariadb_version }}"
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -50,7 +51,7 @@ spec:
             - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
           initialDelaySeconds: 30
           timeoutSeconds: 1
-        name: mysql
+        name: mariadb
         ports:
         - containerPort: 3306
         readinessProbe:
@@ -76,10 +77,9 @@ spec:
   - imageChangeParams:
       automatic: true
       containerNames:
-      - mysql
+      - mariadb
       from:
         kind: ImageStreamTag
-        name: mysql:{{ .Values.mysql_version }}
-        namespace: {{ .Values.namespace }}
+        name: mariadb:{{ .Values.mariadb_version }}
     type: ImageChange
   - type: ConfigChange
