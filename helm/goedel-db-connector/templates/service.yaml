@@ -1,0 +1,59 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    app.openshift.io/route-disabled: 'false'
+    app.openshift.io/vcs-ref: ''
+    app.openshift.io/vcs-uri: 'https://github.com/gratinierer/python_serverless.git'
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"python-serverless-git:latest","namespace":"gratinierer-dev"},"fieldPath":"spec.template.spec.containers[?(@.name==\"python-serverless-git\")].image","pause":"false"}]
+    openshift.io/generated-by: OpenShiftWebConsole
+    serving.knative.dev/creator: gratinierer
+    serving.knative.dev/lastModifier: gratinierer
+  resourceVersion: '1337876863'
+  name: python-serverless-git-helm
+  uid: fe3d557f-abcc-46bd-9e3c-d09617b6d508
+  creationTimestamp: '2023-09-27T08:21:59Z'
+  generation: 1
+  namespace: gratinierer-dev
+  labels:
+    app.kubernetes.io/component: python-serverless-git
+    app.kubernetes.io/instance: python-serverless-git
+    app.kubernetes.io/name: python-serverless-git
+    app.kubernetes.io/part-of: GOEDEL
+    app.openshift.io/runtime: python
+    app.openshift.io/runtime-version: 3.9-ubi8
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/target: '100'
+        autoscaling.knative.dev/targetUtilizationPercentage: '70'
+        autoscaling.knative.dev/window: 60s
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: python-serverless-git
+        app.kubernetes.io/instance: python-serverless-git
+        app.kubernetes.io/part-of: GOEDEL
+        app.openshift.io/runtime: python
+        app.openshift.io/runtime-version: 3.9-ubi8
+    spec:
+      containerConcurrency: 0
+      containers:
+        - image: python-serverless-git:latest
+          imagePullPolicy: Always
+          name: python-serverless-git
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            successThreshold: 1
+            tcpSocket:
+              port: 0
+          resources: {}
+      enableServiceLinks: false
+      timeoutSeconds: 300
+  traffic:
+    - latestRevision: true
+      percent: 100
+
