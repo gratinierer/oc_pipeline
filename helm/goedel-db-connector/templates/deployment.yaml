@@ -5,12 +5,11 @@ metadata:
     autoscaling.knative.dev/target: '100'
     autoscaling.knative.dev/targetUtilizationPercentage: '70'
     autoscaling.knative.dev/window: 60s
+    deployment.kubernetes.io/revision: '1'
     serving.knative.dev/creator: gratinierer
- 
   name: python-serverless-git-00001-deployment-helm
-   namespace: gratinierer-dev
   labels:
-    app: python-serverless-git-00001
+    app: python-serverless-git-helm
     serving.knative.dev/service: python-serverless-git
     serving.knative.dev/configuration: python-serverless-git
     app.kubernetes.io/component: python-serverless-git
