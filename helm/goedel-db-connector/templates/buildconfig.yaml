@@ -6,7 +6,7 @@ metadata:
     app.openshift.io/vcs-uri: 'https://github.com/gratinierer/python_serverless.git'
     openshift.io/generated-by: OpenShiftWebConsole
   resourceVersion: '1337873735'
-  name: python-serverless-git
+  name: python-serverless-git-helm
   uid: 9d13e324-6dd2-43eb-a2b8-7d191c7d14a8
   creationTimestamp: '2023-09-27T08:21:59Z'
   generation: 2
