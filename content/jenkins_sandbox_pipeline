@@ -2,9 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage ('bereinige WS'){
             steps {
-                echo 'Hello World'
+               sh 'rm -rf *'
+            }
+        }
+        stage('Hole daten') {
+            steps {
+                sh 'git clone http://gitea-http:3000/gitea_admin/sandbox.git'
+            }
+        }
+        stage ('manipuliere Daten') {
+            steps {
+                sh 'mkdir output'
+                sh 'cp ./sandbox/data/organizations.csv ./output/'
+            }
+        }
+        stage ('speichere in Datenbank') {
+            steps {
+                echo 'todo'
             }
         }
     }

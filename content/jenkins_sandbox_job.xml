@@ -25,7 +25,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>http://gitea_admin:r8sA8CPHD9_bt6d@gitea-http:3000/gitea_admin/sandbox.git</url>
+          <url>http://gitea-http:3000/gitea_admin/sandbox.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
