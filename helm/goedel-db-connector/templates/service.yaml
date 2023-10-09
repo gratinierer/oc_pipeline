@@ -17,11 +17,7 @@ metadata:
   generation: 1
   namespace: gratinierer-dev
   labels:
-    app.kubernetes.io/component: python-serverless-git
-    app.kubernetes.io/instance: python-serverless-git
-    app.kubernetes.io/name: python-serverless-git
-    app.openshift.io/runtime: python
-    app.openshift.io/runtime-version: 3.9-ubi8
+    {{- include "goedel-db-connector.labels" . | nindent 4 }}
 spec:
   template:
     metadata:

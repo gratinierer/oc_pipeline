@@ -20,19 +20,7 @@ metadata:
       controller: true
       blockOwnerDeletion: true
   labels:
-    app: python-serverless-git-00001
-    serving.knative.dev/configurationUID: 782ed3b9-0fa1-44d9-972e-439e977fd475
-    app.kubernetes.io/part-of: GOEDEL
-    serving.knative.dev/serviceUID: fe3d557f-abcc-46bd-9e3c-d09617b6d508
-    app.kubernetes.io/instance: python-serverless-git
-    serving.knative.dev/revision: python-serverless-git-00001
-    serving.knative.dev/configurationGeneration: '1'
-    serving.knative.dev/revisionUID: e97503bc-4b73-4099-abc4-389868d60abe
-    serving.knative.dev/service: python-serverless-git
-    serving.knative.dev/configuration: python-serverless-git
-    app.kubernetes.io/component: python-serverless-git
-    app.openshift.io/runtime: python
-    app.openshift.io/runtime-version: 3.9-ubi8
+    {{- include "goedel-db-connector.labels" . | nindent 4 }}
 spec:
   replicas: 0
   selector:
@@ -42,24 +30,11 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: python-serverless-git-00001
-        serving.knative.dev/configurationUID: 782ed3b9-0fa1-44d9-972e-439e977fd475
-        app.kubernetes.io/part-of: GOEDEL
-        serving.knative.dev/serviceUID: fe3d557f-abcc-46bd-9e3c-d09617b6d508
-        app.kubernetes.io/instance: python-serverless-git
-        serving.knative.dev/revision: python-serverless-git-00001
-        serving.knative.dev/configurationGeneration: '1'
-        serving.knative.dev/revisionUID: e97503bc-4b73-4099-abc4-389868d60abe
-        serving.knative.dev/service: python-serverless-git
-        serving.knative.dev/configuration: python-serverless-git
-        app.kubernetes.io/component: python-serverless-git
-        app.openshift.io/runtime: python
-        app.openshift.io/runtime-version: 3.9-ubi8
+        {{- include "goedel-db-connector.labels" . | nindent 8 }}      
       annotations:
         autoscaling.knative.dev/target: '100'
         autoscaling.knative.dev/targetUtilizationPercentage: '70'
         autoscaling.knative.dev/window: 60s
-        serving.knative.dev/creator: gratinierer
     spec:
       containers:
         - resources: {}
