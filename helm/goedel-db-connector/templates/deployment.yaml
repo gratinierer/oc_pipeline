@@ -81,8 +81,7 @@ spec:
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          image: >-
-            image-registry.openshift-image-registry.svc:5000/gratinierer-dev/python-serverless-git@sha256:5818f6e19eb550284b4d7882c43b14baa55f842fae1a721cf73f30db41b3f1fe
+          image: python-serverless-git:latest
         - resources:
             requests:
               cpu: 25m
@@ -197,8 +196,7 @@ spec:
               protocol: TCP
           imagePullPolicy: IfNotPresent
           terminationMessagePolicy: File
-          image: >-
-            registry.redhat.io/openshift-serverless-1/serving-queue-rhel8@sha256:96f096660fdfbe8a319dc2653b503bdb2c7f226837ace099658c895f8f36a207
+          image: python-serverless-git:latest
       restartPolicy: Always
       terminationGracePeriodSeconds: 300
       dnsPolicy: ClusterFirst
