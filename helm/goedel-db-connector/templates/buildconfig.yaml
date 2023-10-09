@@ -1,0 +1,56 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ''
+    app.openshift.io/vcs-uri: 'https://github.com/gratinierer/python_serverless.git'
+    openshift.io/generated-by: OpenShiftWebConsole
+  resourceVersion: '1337873735'
+  name: python-serverless-git
+  uid: 9d13e324-6dd2-43eb-a2b8-7d191c7d14a8
+  creationTimestamp: '2023-09-27T08:21:59Z'
+  generation: 2
+  namespace: gratinierer-dev
+  labels:
+    app: python-serverless-git
+    app.kubernetes.io/component: python-serverless-git
+    app.kubernetes.io/instance: python-serverless-git
+    app.kubernetes.io/name: python-serverless-git
+    app.kubernetes.io/part-of: GOEDEL
+    app.openshift.io/runtime: python
+    app.openshift.io/runtime-version: 3.9-ubi8
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'python-serverless-git:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'python:3.9-ubi8'
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/gratinierer/python_serverless.git'
+    contextDir: /
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: python-serverless-git-generic-webhook-secret
+    - type: GitHub
+      github:
+        secretReference:
+          name: python-serverless-git-github-webhook-secret
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange
+  runPolicy: Serial
