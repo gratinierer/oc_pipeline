@@ -8,7 +8,7 @@ metadata:
     deployment.kubernetes.io/revision: '1'
     serving.knative.dev/creator: gratinierer
   resourceVersion: '1337884429'
-  name: python-serverless-git-00001-deployment
+  name: python-serverless-git-00001-deployment-helm
   uid: 2507094c-2b01-4542-aadc-de0f96d6d3b8
   creationTimestamp: '2023-09-27T08:23:03Z'
   generation: 2
