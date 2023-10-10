@@ -7,6 +7,14 @@ pipeline {
                sh 'rm -rf *'
             }
         }
+        stage('setze variablen') {
+            steps {
+                script {
+                    kubernetes_namespace = sh (returnStdout: true, script: 'cat /var/run/secrets/kubernetes.io/serviceaccount/namespace')
+                }
+                echo "namespace: ${kubernetes_namespace}"
+            }
+        }
         stage('Hole daten') {
             steps {
                 sh 'git clone http://gitea-http:3000/gitea_admin/sandbox.git'
@@ -21,7 +29,7 @@ pipeline {
         }
         stage ('speichere in Datenbank') {
             steps {
-                echo 'todo'
+                sh "curl -v http://event-display-kn.${kubernetes_namespace}" //todo
             }
         }
     }
