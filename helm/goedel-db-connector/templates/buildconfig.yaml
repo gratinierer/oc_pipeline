@@ -28,6 +28,7 @@ spec:
     type: Git
     git:
       uri: 'https://github.com/gratinierer/python_serverless.git'
+      ref: 'mysql'
     contextDir: /
   triggers:
     - type: Generic
