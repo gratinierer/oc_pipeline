@@ -12,7 +12,7 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: {{ include "goedel-db-connector.fullname" . }}:latest
+      name: {{ include "goedel-db-connector.name" . }}:latest
   resources: {}
   successfulBuildsHistoryLimit: 5
   failedBuildsHistoryLimit: 5

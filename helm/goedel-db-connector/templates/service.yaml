@@ -2,15 +2,16 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   annotations:
-    app.openshift.io/route-disabled: 'false'
-    app.openshift.io/vcs-ref: ''
-    app.openshift.io/vcs-uri: 'https://github.com/gratinierer/python_serverless.git'
-    image.openshift.io/triggers: >-
-      [{"from":{"kind":"ImageStreamTag","name":"python-serverless-git:latest","namespace":"gratinierer-dev"},"fieldPath":"spec.template.spec.containers[?(@.name==\"python-serverless-git\")].image","pause":"false"}]
-    openshift.io/generated-by: OpenShiftWebConsole
-    serving.knative.dev/creator: gratinierer
-    serving.knative.dev/lastModifier: gratinierer
-  resourceVersion: '1337876863'
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "{{ include "goedel-db-connector.name" . }}:latest"
+          },
+          "fieldPath": "spec.template.spec.containers[0].image"
+        }
+      ]
   name: {{ include "goedel-db-connector.fullname" . }}
   namespace: gratinierer-dev
   labels:
@@ -28,9 +29,9 @@ spec:
     spec:
       containerConcurrency: 0
       containers:
-        - image: {{ include "goedel-db-connector.fullname" . }}:latest
+        - image: {{ include "goedel-db-connector.name" . }}:latest
           imagePullPolicy: Always
-          name: {{ include "goedel-db-connector.fullname" . }}
+          name: {{ include "goedel-db-connector.name" . }}
           ports:
             - containerPort: 8080
               protocol: TCP
