@@ -1,0 +1,10 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: {{ include "goedel-db-connector.fullname" . }}
+  labels:
+    {{- include "goedel-db-connector.labels" . | nindent 4 }}
+spec:
+  lookupPolicy:
+    local: true
+

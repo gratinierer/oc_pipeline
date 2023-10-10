@@ -11,10 +11,7 @@ metadata:
     serving.knative.dev/creator: gratinierer
     serving.knative.dev/lastModifier: gratinierer
   resourceVersion: '1337876863'
-  name: python-serverless-git-helm
-  uid: fe3d557f-abcc-46bd-9e3c-d09617b6d508
-  creationTimestamp: '2023-09-27T08:21:59Z'
-  generation: 1
+  name: {{ include "goedel-db-connector.fullname" . }}
   namespace: gratinierer-dev
   labels:
     {{- include "goedel-db-connector.labels" . | nindent 4 }}
@@ -26,19 +23,14 @@ spec:
         autoscaling.knative.dev/targetUtilizationPercentage: '70'
         autoscaling.knative.dev/window: 60s
       creationTimestamp: null
-      labels:
-        app.kubernetes.io/component: python-serverless-git
-        app.kubernetes.io/instance: python-serverless-git
-        app.openshift.io/runtime: python
-        app.openshift.io/runtime-version: 3.9-ubi8
+    labels:
+      {{- include "goedel-db-connector.labels" . | nindent 8 }}
     spec:
-      lookupPolicy:
-        local: true
       containerConcurrency: 0
       containers:
-        - image: python-serverless-git:latest
+        - image: {{ include "goedel-db-connector.fullname" . }}:latest
           imagePullPolicy: Always
-          name: python-serverless-git
+          name: {{ include "goedel-db-connector.fullname" . }}
           ports:
             - containerPort: 8080
               protocol: TCP
