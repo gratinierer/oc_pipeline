@@ -13,7 +13,6 @@ metadata:
         }
       ]
   name: {{ include "goedel-db-connector.fullname" . }}
-  namespace: gratinierer-dev
   labels:
     {{- include "goedel-db-connector.labels" . | nindent 4 }}
 spec:
@@ -27,10 +26,8 @@ spec:
     labels:
       {{- include "goedel-db-connector.labels" . | nindent 8 }}
     spec:
-      containerConcurrency: 0
       containers:
-        - image: {{ include "goedel-db-connector.name" . }}:latest
-          imagePullPolicy: Always
+        - image: image-registry.openshift-image-registry.svc:5000/{{ .Release.Namespace }}/{{ include "goedel-db-connector.name" . }}:latest
           name: {{ include "goedel-db-connector.name" . }}
           ports:
             - containerPort: 8080
