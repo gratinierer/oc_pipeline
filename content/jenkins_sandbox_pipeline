@@ -29,7 +29,7 @@ pipeline {
         }
         stage ('speichere in Datenbank') {
             steps {
-                sh "curl -v http://event-display-kn.${kubernetes_namespace}" //todo
+                sh "curl --data \"@./sandbox/data/organizations.csv\" http://ws-gdbc.${kubernetes_namespace}"
             }
         }
     }
