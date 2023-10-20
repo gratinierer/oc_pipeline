@@ -1,45 +1,41 @@
 kind: BuildConfig
 apiVersion: build.openshift.io/v1
 metadata:
-  annotations:
-    description: Defines how to build the application
-    template.alpha.openshift.io/wait-for-ready: "true"
   name: {{ include "goedel-db-connector.fullname" . }}
   labels:
     {{- include "goedel-db-connector.labels" . | nindent 4 }}
+  annotations:
+    description: Defines how to build the application
+    template.alpha.openshift.io/wait-for-ready: "true"
 spec:
-  nodeSelector: null
-  output:
-    to:
-      kind: ImageStreamTag
-      name: {{ include "goedel-db-connector.name" . }}:latest
-  resources: {}
-  successfulBuildsHistoryLimit: 5
-  failedBuildsHistoryLimit: 5
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: dbconnector-generic-webhook-secret
+    - type: GitHub
+      github:
+        secretReference:
+          name: dbconnector-github-webhook-secret
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange
+  runPolicy: Serial
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/gratinierer/oc_pipeline.git'
+    contextDir: /app/db-connector
   strategy:
     type: Source
     sourceStrategy:
       from:
         kind: ImageStreamTag
         namespace: openshift
-        name: 'python:3.9-ubi8'
+        name: 'java:openjdk-17-ubi8'
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'dbconnector:latest'
+  resources: {}
   postCommit: {}
-  source:
-    type: Git
-    git:
-      uri: 'https://github.com/gratinierer/python_serverless.git'
-      ref: 'mysql'
-    contextDir: /
-  triggers:
-    - type: Generic
-      generic:
-        secretReference:
-          name: python-serverless-git-generic-webhook-secret
-    - type: GitHub
-      github:
-        secretReference:
-          name: python-serverless-git-github-webhook-secret
-    - type: ImageChange
-      imageChange: {}
-    - type: ConfigChange
-  runPolicy: Serial
