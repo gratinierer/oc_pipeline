@@ -22,9 +22,9 @@ spec:
       containers:
       - env:
         - name: OPENSHIFT_ENABLE_OAUTH
-          value: "true"
+          value: "false"
         - name: OPENSHIFT_ENABLE_REDIRECT_PROMPT
-          value: "true"
+          value: "false"
         - name: DISABLE_ADMINISTRATIVE_MONITORS
           value: "false"
         - name: KUBERNETES_MASTER
