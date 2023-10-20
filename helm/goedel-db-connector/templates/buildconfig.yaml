@@ -36,6 +36,6 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 'dbconnector:latest'
+      name: {{ include "goedel-db-connector.name" . }}:latest
   resources: {}
   postCommit: {}
