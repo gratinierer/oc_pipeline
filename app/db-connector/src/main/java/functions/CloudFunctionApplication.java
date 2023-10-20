@@ -30,10 +30,6 @@ public class CloudFunctionApplication {
     return (inputMessage) -> {
 
       var stringBuilder = new StringBuilder();
-      inputMessage.getHeaders()
-        .forEach((key, value) -> {
-          stringBuilder.append(key).append(": ").append(value).append(" ");
-        });
 
       var payload = inputMessage.getPayload();
 
@@ -44,6 +40,9 @@ public class CloudFunctionApplication {
           .parse();
         importedOrgs.stream().forEach(org -> org.setJob("aJob"));
         orgRepository.saveAll(importedOrgs);
+        stringBuilder.append("orgs written to db");
+      } else {
+        stringBuilder.append("no orgs for persist");
       }
 
       return stringBuilder.toString();
