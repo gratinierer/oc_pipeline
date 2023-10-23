@@ -3,11 +3,10 @@ apiVersion: apps.openshift.io/v1
 metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: 'true'
-  name: mariadb
+  name: postgresql
   labels:
-    app.openshift.io/runtime: mariadb
-    template: mariadb-ephemeral-template
-    template.openshift.io/template-instance-owner: 696b7c4e-8384-427d-8bc1-7510727d01c2
+    template: postgresql-ephemeral-template
+    template.openshift.io/template-instance-owner: 191fadcf-9f73-4f7a-9b6d-39ed4af97b5d
 spec:
   strategy:
     type: Recreate
@@ -20,27 +19,27 @@ spec:
       imageChangeParams:
         automatic: true
         containerNames:
-          - mariadb
+          - postgresql
         from:
           kind: ImageStreamTag
           namespace: openshift
-          name: 'mariadb:10.3-el8'
+          name: 'postgresql:10-el8'
         lastTriggeredImage: >-
-          image-registry.openshift-image-registry.svc:5000/openshift/mariadb@sha256:d0eea30ae4fc8c5bb06d0e4d61d92fba9c0ae40b8023f72702301b70a7537faa
+          image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:f98ee90210167538a919250e6cee6fc2105744b9adfd986034cd0a3056d1b209
     - type: ConfigChange
   replicas: 1
   revisionHistoryLimit: 10
   test: false
   selector:
-    name: mariadb
+    name: postgresql
   template:
     metadata:
       creationTimestamp: null
       labels:
-        name: mariadb
+        name: postgresql
     spec:
       volumes:
-        - name: mariadb-data
+        - name: postgresql-data
           emptyDir: {}
       containers:
         - resources:
@@ -49,48 +48,46 @@ spec:
           readinessProbe:
             exec:
               command:
-                - /bin/sh
-                - '-i'
-                - '-c'
-                - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+                - /usr/libexec/check-container
             initialDelaySeconds: 5
             timeoutSeconds: 1
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
-          name: mariadb
+          name: postgresql
           livenessProbe:
             exec:
               command:
-                - /bin/sh
-                - '-i'
-                - '-c'
-                - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
-            initialDelaySeconds: 30
-            timeoutSeconds: 1
+                - /usr/libexec/check-container
+                - '--live'
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 3
           env:
-            - name: MYSQL_USER
-              value: muser
-            - name: MYSQL_PASSWORD
-              value: password
-            - name: MYSQL_ROOT_PASSWORD
-              value: password
-            - name: MYSQL_DATABASE
-              value: tempdb
+            - name: POSTGRESQL_USER
+              value: superset
+            - name: POSTGRESQL_PASSWORD
+              value: superset
+            - name: POSTGRESQL_DATABASE
+              value: superset
+          securityContext:
+            capabilities: {}
+            privileged: false
           ports:
-            - containerPort: 3306
+            - containerPort: 5432
               protocol: TCP
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - name: mariadb-data
-              mountPath: /var/lib/mysql/data
+            - name: postgresql-data
+              mountPath: /var/lib/pgsql/data
           terminationMessagePolicy: File
           image: >-
-            image-registry.openshift-image-registry.svc:5000/openshift/mariadb@sha256:d0eea30ae4fc8c5bb06d0e4d61d92fba9c0ae40b8023f72702301b70a7537faa
+            image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:f98ee90210167538a919250e6cee6fc2105744b9adfd986034cd0a3056d1b209
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
-
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler

@@ -3,11 +3,10 @@ apiVersion: apps.openshift.io/v1
 metadata:
   annotations:
     template.alpha.openshift.io/wait-for-ready: 'true'
-  name: mariadb
+  name: redis
   labels:
-    app.openshift.io/runtime: mariadb
-    template: mariadb-ephemeral-template
-    template.openshift.io/template-instance-owner: 696b7c4e-8384-427d-8bc1-7510727d01c2
+    template: redis-ephemeral-template
+    template.openshift.io/template-instance-owner: c4fad92e-565d-4317-a1a4-c8f458788d62
 spec:
   strategy:
     type: Recreate
@@ -20,27 +19,27 @@ spec:
       imageChangeParams:
         automatic: true
         containerNames:
-          - mariadb
+          - redis
         from:
           kind: ImageStreamTag
           namespace: openshift
-          name: 'mariadb:10.3-el8'
+          name: 'redis:6-el8'
         lastTriggeredImage: >-
-          image-registry.openshift-image-registry.svc:5000/openshift/mariadb@sha256:d0eea30ae4fc8c5bb06d0e4d61d92fba9c0ae40b8023f72702301b70a7537faa
+          image-registry.openshift-image-registry.svc:5000/openshift/redis@sha256:b26c5ac7756c901386a8a9c791e79767b7f298f2c033a175c857a072da99a557
     - type: ConfigChange
   replicas: 1
   revisionHistoryLimit: 10
   test: false
   selector:
-    name: mariadb
+    name: redis
   template:
     metadata:
       creationTimestamp: null
       labels:
-        name: mariadb
+        name: redis
     spec:
       volumes:
-        - name: mariadb-data
+        - name: redis-data
           emptyDir: {}
       containers:
         - resources:
@@ -52,45 +51,42 @@ spec:
                 - /bin/sh
                 - '-i'
                 - '-c'
-                - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+                - >-
+                  test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" ==
+                  "PONG"
             initialDelaySeconds: 5
             timeoutSeconds: 1
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
-          name: mariadb
+          name: redis
           livenessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - '-i'
-                - '-c'
-                - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            tcpSocket:
+              port: 6379
             initialDelaySeconds: 30
             timeoutSeconds: 1
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 3
           env:
-            - name: MYSQL_USER
-              value: muser
-            - name: MYSQL_PASSWORD
-              value: password
-            - name: MYSQL_ROOT_PASSWORD
-              value: password
-            - name: MYSQL_DATABASE
-              value: tempdb
+            - name: REDIS_PASSWORD
+              value: superset
+          securityContext:
+            capabilities: {}
+            privileged: false
           ports:
-            - containerPort: 3306
+            - containerPort: 6379
               protocol: TCP
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - name: mariadb-data
-              mountPath: /var/lib/mysql/data
+            - name: redis-data
+              mountPath: /var/lib/redis/data
           terminationMessagePolicy: File
           image: >-
-            image-registry.openshift-image-registry.svc:5000/openshift/mariadb@sha256:d0eea30ae4fc8c5bb06d0e4d61d92fba9c0ae40b8023f72702301b70a7537faa
+            image-registry.openshift-image-registry.svc:5000/openshift/redis@sha256:b26c5ac7756c901386a8a9c791e79767b7f298f2c033a175c857a072da99a557
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
-
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
