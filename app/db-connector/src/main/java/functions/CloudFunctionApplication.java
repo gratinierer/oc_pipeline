@@ -1,6 +1,7 @@
 package functions;
 
 import com.opencsv.bean.CsvToBeanBuilder;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,6 +27,7 @@ public class CloudFunctionApplication {
   private final OrgRepository orgRepository;
   
   @Bean
+  @Transactional
   public Function<Message<String>, String> echo() {
     return (inputMessage) -> {
 
