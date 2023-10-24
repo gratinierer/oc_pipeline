@@ -15,7 +15,6 @@ metadata:
   name: {{ include "goedel-db-connector.fullname" . }}
   labels:
     networking.knative.dev/visibility: cluster-local
-    {{- include "goedel-db-connector.labels" . | nindent 4 }}
 spec:
   template:
     metadata:
@@ -24,8 +23,6 @@ spec:
         autoscaling.knative.dev/targetUtilizationPercentage: '70'
         autoscaling.knative.dev/window: 60s
       creationTimestamp: null
-    labels:
-      {{- include "goedel-db-connector.labels" . | nindent 8 }}
     spec:
       containers:
         - image: image-registry.openshift-image-registry.svc:5000/{{ .Release.Namespace }}/{{ include "goedel-db-connector.name" . }}:latest
